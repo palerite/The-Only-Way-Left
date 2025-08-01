@@ -7,7 +7,9 @@ func _ready():
 	Global.get_player().respawned.connect(reset)
 
 func reset():
+	$CrumbleTimer.stop()
 	anim_player.play_backwards("crumble")
+	await anim_player.animation_finished
 	$CollisionShape2D.disabled = false
 	$DetectionArea/CollisionShape2D.disabled = false
 

@@ -1,10 +1,9 @@
 extends State
 
-@export var DASH_DISTANCE := 5.0
+@export var DASH_DISTANCE := 5.5
 @export var CONTROL_DELAY_RATIO := 0.6
 @export var CONTROL_STRENGTH := 200.0
 @export var DASH_TIME := 0.2
-@export var DECCELERATION_STRENGTH := 40.0
 @export var DECCELERATION_THRESHOLD := 0.1
 
 @export var raycast_up: RayCast2D
@@ -14,7 +13,8 @@ extends State
 
 @export var BUMP_PUSH_SPEED: float = 100.0
 
-var dash_speed = (DASH_DISTANCE * Global.TILE_SIZE + (DECCELERATION_STRENGTH * DECCELERATION_THRESHOLD**2 / 2)) / DASH_TIME
+var decceleration_strength := (DASH_DISTANCE * Global.TILE_SIZE / DASH_TIME / 2) / DECCELERATION_THRESHOLD 
+var dash_speed = (DASH_DISTANCE * Global.TILE_SIZE + (decceleration_strength * DECCELERATION_THRESHOLD**2 / 2)) / DASH_TIME
 var timer := 0.0
 
 @export var fall_state: State
@@ -41,7 +41,7 @@ func physics_process(delta: float) -> void:
 		var target_velocity = dash_speed if dir >= 0 else 0.0
 		master.velocity.x = move_toward(master.velocity.x, target_velocity, delta * CONTROL_STRENGTH)
 	if timer <= DECCELERATION_THRESHOLD:
-		master.velocity.x = move_toward(master.velocity.x, dash_speed / 2, delta * DECCELERATION_STRENGTH)
+		master.velocity.x = move_toward(master.velocity.x, dash_speed / 2, delta * decceleration_strength)
 	
 	master.move_and_slide()
 
@@ -53,7 +53,8 @@ func on_enter() -> void:
 
 func on_exit() -> void:
 	if Input.is_action_pressed("move_right"):
-		master.velocity.x = master.TOP_SPEED * Global.TILE_SIZE
+		pass
+		master.velocity.x = max(master.TOP_SPEED, dash_speed/2)
 	else:
-		master.velocity.x = min(0, master.velocity.x)
+		master.velocity.x = min(master.TOP_SPEED, master.velocity.x)
 		

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://1bld2xtdv5g6"]
 
 [ext_resource type="Script" uid="uid://djajqth3hw2m0" path="res://checkpoint.gd" id="1_tmfac"]
-[ext_resource type="Texture2D" uid="uid://c4qqdj4eh4l18" path="res://flag_left.png" id="2_h111f"]
+[ext_resource type="Texture2D" uid="uid://c4qqdj4eh4l18" path="res://objects/flag_left.png" id="2_h111f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_brk7f"]
 size = Vector2(14, 28)
@@ -21,7 +21,7 @@ shape = SubResource("RectangleShape2D_brk7f")
 debug_color = Color(0.628116, 0.530663, 1.92523e-07, 0.42)
 
 [node name="CheckpointMarker" type="Marker2D" parent="."]
-position = Vector2(0, 6)
+position = Vector2(0, 4)
 gizmo_extents = 8.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

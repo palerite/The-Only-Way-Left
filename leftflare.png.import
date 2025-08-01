@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4qqdj4eh4l18"
-path="res://.godot/imported/flag_left.png-b54ba128747f1dbfaa9239e2cf191ede.ctex"
+uid="uid://b2uy3xu7cnee5"
+path="res://.godot/imported/leftflare.png-5685292e46b8f9d4345957aed3eb2b6b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://flag_left.png"
-dest_files=["res://.godot/imported/flag_left.png-b54ba128747f1dbfaa9239e2cf191ede.ctex"]
+source_file="res://leftflare.png"
+dest_files=["res://.godot/imported/leftflare.png-5685292e46b8f9d4345957aed3eb2b6b.ctex"]
 
 [params]
 

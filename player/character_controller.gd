@@ -21,10 +21,12 @@ var gravity: float = 2 * JUMP_HEIGHT * Global.TILE_SIZE *(TOP_SPEED * Global.TIL
 var dash_available := true
 var checkpoint: Vector2
 
+signal respawn_started(lag: float)
 signal respawned
 
 func _ready() -> void:
 	set_checkpoint(position)
+	respawn()
 
 func _physics_process(_delta: float) -> void:
 	$BumpRaycasts/Directional.scale.x = (sign(velocity.x) if sign(velocity.x) else 1)
@@ -36,10 +38,14 @@ func jump():
 	velocity.y = jump_speed
 
 func respawn():
+	$AnimationPlayer.play_backwards("switch")
 	position = checkpoint
 	zero_velocity()
 	regain_dash()
 	respawned.emit()
+
+func switch_phase():
+	$AnimationPlayer.play("switch")
 
 func lose_dash():
 	dash_available = false

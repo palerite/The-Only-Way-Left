@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://6gdd8jv1ppaq"]
+
+[ext_resource type="Script" uid="uid://beogdvfh67t22" path="res://objects/flag.gd" id="1_2iksx"]
+[ext_resource type="Texture2D" uid="uid://dmqj7e514tcxq" path="res://objects/flag_right.png" id="2_r1rfj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_brk7f"]
+size = Vector2(14, 28)
+
+[node name="Flag" type="Area2D" groups=["Flag"]]
+z_index = -1
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_2iksx")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(4, -2)
+texture = ExtResource("2_r1rfj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_brk7f")
+debug_color = Color(0.557974, 0.397001, 1, 0.42)
+
+[node name="CheckpointMarker" type="Marker2D" parent="."]
+position = Vector2(0, 6)
+gizmo_extents = 8.0
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
