@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://dtllkf0pfxkrc"]
+
+[node name="Text" type="Sprite2D"]
+light_mask = 2
+z_index = -1
+scale = Vector2(0.75, 0.75)

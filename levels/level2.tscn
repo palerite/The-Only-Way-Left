@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=4 uid="uid://bgjwse2jbgjjv"]
+[gd_scene load_steps=14 format=4 uid="uid://bgjwse2jbgjjv"]
 
 [ext_resource type="Script" uid="uid://b3nwagliv2cpk" path="res://levels/level.gd" id="1_76ugp"]
 [ext_resource type="Texture2D" uid="uid://dxqk031g4206o" path="res://tile.png" id="1_py88r"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" uid="uid://6gdd8jv1ppaq" path="res://objects/flag.tscn" id="4_s1bpp"]
 [ext_resource type="PackedScene" uid="uid://gstsq3n6ap0v" path="res://text/second_phase_text.tscn" id="5_76ugp"]
 [ext_resource type="Texture2D" uid="uid://c4wq335u7ooos" path="res://text/dash_to_the_right.png" id="6_s1bpp"]
+[ext_resource type="Texture2D" uid="uid://bpcl2m0rvvh47" path="res://text/dash.png" id="9_55gdq"]
+[ext_resource type="PackedScene" uid="uid://dtllkf0pfxkrc" path="res://text/text.tscn" id="9_crte6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qpjuv"]
 texture = ExtResource("1_py88r")
@@ -56,7 +58,9 @@ position = Vector2(204, 172)
 position = Vector2(312, 164)
 
 [node name="SecondPhaseText" parent="." instance=ExtResource("5_76ugp")]
-light_mask = 2
-position = Vector2(232, 120)
-scale = Vector2(0.75, 0.75)
+position = Vector2(240, 116)
 texture = ExtResource("6_s1bpp")
+
+[node name="Text" parent="." instance=ExtResource("9_crte6")]
+position = Vector2(124, 132)
+texture = ExtResource("9_55gdq")

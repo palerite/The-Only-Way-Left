@@ -1,10 +1,14 @@
-[gd_scene load_steps=8 format=4 uid="uid://csiyt2w3poikn"]
+[gd_scene load_steps=12 format=4 uid="uid://csiyt2w3poikn"]
 
 [ext_resource type="Script" uid="uid://b3nwagliv2cpk" path="res://levels/level.gd" id="1_8hd6v"]
 [ext_resource type="Texture2D" uid="uid://dxqk031g4206o" path="res://tile.png" id="2_045es"]
 [ext_resource type="PackedScene" uid="uid://bgjwse2jbgjjv" path="res://levels/level2.tscn" id="2_61w3m"]
 [ext_resource type="PackedScene" uid="uid://1bld2xtdv5g6" path="res://checkpoint.tscn" id="3_omn1t"]
 [ext_resource type="PackedScene" uid="uid://6gdd8jv1ppaq" path="res://objects/flag.tscn" id="5_yydhl"]
+[ext_resource type="PackedScene" uid="uid://gstsq3n6ap0v" path="res://text/second_phase_text.tscn" id="6_bekh1"]
+[ext_resource type="PackedScene" uid="uid://dtllkf0pfxkrc" path="res://text/text.tscn" id="6_omn1t"]
+[ext_resource type="Texture2D" uid="uid://cdvqfddljpsix" path="res://text/move_jump.png" id="6_pdpul"]
+[ext_resource type="Texture2D" uid="uid://bfrssk5ov04q4" path="res://text/the_only_way_is_left.png" id="9_lf3p4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qpjuv"]
 texture = ExtResource("2_045es")
@@ -37,3 +41,11 @@ position = Vector2(96, 164)
 
 [node name="Flag" parent="." instance=ExtResource("5_yydhl")]
 position = Vector2(312, 164)
+
+[node name="MoveJump" parent="." instance=ExtResource("6_omn1t")]
+position = Vector2(124, 116)
+texture = ExtResource("6_pdpul")
+
+[node name="SecondPhaseText" parent="." instance=ExtResource("6_bekh1")]
+position = Vector2(228, 124)
+texture = ExtResource("9_lf3p4")
