@@ -20,9 +20,12 @@ var gravity: float = 2 * JUMP_HEIGHT * Global.TILE_SIZE *(TOP_SPEED * Global.TIL
 
 var dash_available := true
 var checkpoint: Vector2
+var jumped_manually := false
 
+@warning_ignore("unused_signal")
 signal respawn_started(lag: float)
 signal respawned
+signal flag_reached
 
 func _ready() -> void:
 	set_checkpoint(position)
@@ -36,6 +39,7 @@ func get_dir():
 
 func jump():
 	velocity.y = jump_speed
+	jumped_manually = true
 
 func respawn():
 	$AnimationPlayer.play_backwards("switch")
@@ -43,9 +47,12 @@ func respawn():
 	zero_velocity()
 	regain_dash()
 	respawned.emit()
+	Global.phase2 = false
 
 func switch_phase():
 	$AnimationPlayer.play("switch")
+	flag_reached.emit()
+	Global.phase2 = true
 
 func lose_dash():
 	dash_available = false

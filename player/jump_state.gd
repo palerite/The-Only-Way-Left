@@ -18,6 +18,8 @@ extends State
 func unhandled_input(event: InputEvent) -> void:
 	if master.dash_available and event.is_action_pressed("dash"):
 		transition(dash_state)
+	if event.is_action_released("jump") and master.jumped_manually:
+		master.velocity.y = master.jump_speed * 0.2
 
 func process(_delta: float) -> void:
 	pass
@@ -46,4 +48,4 @@ func on_enter() -> void:
 	coyote_timer.stop()
 
 func on_exit() -> void:
-	pass
+	master.jumped_manually = false

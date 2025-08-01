@@ -1,22 +1,10 @@
 [gd_scene load_steps=16 format=3 uid="uid://df60tn3yr0nvl"]
 
 [ext_resource type="Script" uid="uid://57t7plhsoy5v" path="res://game.gd" id="1_e2o6t"]
-[ext_resource type="PackedScene" uid="uid://bgjwse2jbgjjv" path="res://levels/level2.tscn" id="2_feb5d"]
 [ext_resource type="PackedScene" uid="uid://ct8517n1ncw74" path="res://player/player.tscn" id="3_feb5d"]
 [ext_resource type="Texture2D" uid="uid://d5i7qb37x1h0" path="res://vfx/background_particle.png" id="4_fc0e3"]
+[ext_resource type="Script" uid="uid://1ripjstp24eh" path="res://levels/level_manager.gd" id="4_ryrav"]
 [ext_resource type="Texture2D" uid="uid://is0uddudpegk" path="res://vfx/transition.png" id="5_7jktm"]
-
-[sub_resource type="Environment" id="Environment_feb5d"]
-background_mode = 3
-glow_enabled = true
-glow_levels/1 = 0.25
-glow_levels/3 = 0.0
-glow_levels/4 = 1.1
-glow_strength = 0.48
-glow_bloom = 0.3
-glow_blend_mode = 0
-adjustment_enabled = true
-adjustment_contrast = 1.08
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7jktm"]
 particle_flag_disable_z = true
@@ -58,7 +46,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CanvasModulate:color")
+tracks/1/path = NodePath("../../CanvasModulate:color")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -86,7 +74,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CanvasModulate:color")
+tracks/1/path = NodePath("../../CanvasModulate:color")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -158,24 +146,33 @@ _data = {
 &"slide_out": SubResource("Animation_j5wjh")
 }
 
+[sub_resource type="Environment" id="Environment_feb5d"]
+background_mode = 3
+glow_enabled = true
+glow_levels/1 = 0.25
+glow_levels/3 = 0.0
+glow_levels/4 = 1.1
+glow_strength = 0.48
+glow_bloom = 0.3
+glow_blend_mode = 0
+adjustment_enabled = true
+adjustment_contrast = 1.08
+
 [node name="Game" type="Node" node_paths=PackedStringArray("background_ap", "particles_right", "particles_left", "canvas_modulate", "transition_ap") groups=["Game"]]
 script = ExtResource("1_e2o6t")
-background_ap = NodePath("ColorBackground/AnimationPlayer")
-particles_right = NodePath("ColorBackground/ParticlesRight")
-particles_left = NodePath("ColorBackground/ParticlesLeft")
-canvas_modulate = NodePath("ColorBackground/CanvasModulate")
+background_ap = NodePath("BgLayer/ColorBackground/AnimationPlayer")
+particles_right = NodePath("BgLayer/ColorBackground/ParticlesRight")
+particles_left = NodePath("BgLayer/ColorBackground/ParticlesLeft")
+canvas_modulate = NodePath("CanvasModulate")
 MODULATE_COLOR = Color(0.699653, 0.699653, 0.699653, 1)
-transition_ap = NodePath("CanvasLayer/Transition/AnimationPlayer")
+transition_ap = NodePath("GuiLayer/Transition/AnimationPlayer")
 
-[node name="Level2" parent="." instance=ExtResource("2_feb5d")]
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
 
-[node name="Player" parent="." instance=ExtResource("3_feb5d")]
-position = Vector2(95, 165)
+[node name="BgLayer" type="CanvasLayer" parent="."]
+layer = -1
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_feb5d")
-
-[node name="ColorBackground" type="ColorRect" parent="."]
+[node name="ColorBackground" type="ColorRect" parent="BgLayer"]
 light_mask = 2
 z_index = -20
 offset_left = -5.0
@@ -184,10 +181,7 @@ offset_right = 394.0
 offset_bottom = 224.0
 color = Color(0.4, 0.4, 0.4, 1)
 
-[node name="CanvasModulate" type="CanvasModulate" parent="ColorBackground"]
-position = Vector2(5, 5)
-
-[node name="ParticlesRight" type="GPUParticles2D" parent="ColorBackground"]
+[node name="ParticlesRight" type="GPUParticles2D" parent="BgLayer/ColorBackground"]
 position = Vector2(57, 115)
 amount = 20
 texture = ExtResource("4_fc0e3")
@@ -195,7 +189,7 @@ lifetime = 0.8
 preprocess = 1.0
 process_material = SubResource("ParticleProcessMaterial_7jktm")
 
-[node name="ParticlesLeft" type="GPUParticles2D" parent="ColorBackground"]
+[node name="ParticlesLeft" type="GPUParticles2D" parent="BgLayer/ColorBackground"]
 visible = false
 position = Vector2(364, 116)
 amount = 20
@@ -204,20 +198,34 @@ lifetime = 0.8
 preprocess = 1.0
 process_material = SubResource("ParticleProcessMaterial_fc0e3")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="ColorBackground"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="BgLayer/ColorBackground"]
 libraries = {
 &"": SubResource("AnimationLibrary_ryrav")
 }
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="GuiLayer" type="CanvasLayer" parent="."]
 
-[node name="Transition" type="TextureRect" parent="CanvasLayer"]
+[node name="Transition" type="TextureRect" parent="GuiLayer"]
 offset_left = -769.0
 offset_right = -1.0
 offset_bottom = 216.0
 texture = ExtResource("5_7jktm")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Transition"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="GuiLayer/Transition"]
 libraries = {
 &"": SubResource("AnimationLibrary_vef74")
 }
+
+[node name="LevelManager" type="Node" parent="." node_paths=PackedStringArray("camera", "player")]
+script = ExtResource("4_ryrav")
+camera = NodePath("Camera2D")
+player = NodePath("../Player")
+
+[node name="Camera2D" type="Camera2D" parent="LevelManager"]
+offset = Vector2(192, 108)
+
+[node name="Player" parent="." instance=ExtResource("3_feb5d")]
+position = Vector2(96, 168)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_feb5d")

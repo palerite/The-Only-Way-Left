@@ -37,7 +37,6 @@ func physics_process(delta: float) -> void:
 		transition(idle_state)
 
 func on_enter() -> void:
-	var debug = master.velocity.x
 	if buffer_timer.time_left:
 		transition(jump_state)
 		master.jump()

@@ -77,8 +77,8 @@ scale = Vector2(1, 0.9375)
 texture = ExtResource("1_4flbx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(0, 0.5)
+scale = Vector2(0.995, 0.995)
 shape = SubResource("RectangleShape2D_onrkg")
 
 [node name="Hitbox" type="Area2D" parent="." groups=["Player"]]

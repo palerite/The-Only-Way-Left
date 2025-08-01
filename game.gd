@@ -16,11 +16,9 @@ class_name Game
 #
 func _ready() -> void:
 	reset()
-	var flag = Global.get_flag()
-	if flag:
-		flag.flag_reached.connect(_on_flag_reached)
 	var player = Global.get_player()
 	if player:
+		player.flag_reached.connect(_on_flag_reached)
 		player.respawned.connect(reset)
 		player.respawn_started.connect(restart_transition)
 
