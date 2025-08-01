@@ -6,9 +6,6 @@ extends State
 @export var buffer_timer: Timer
 @export var coyote_timer: Timer
 
-var horizontal_acceleration = 1.0 / ACCELERATION_TIME
-var horizontal_decceleration = 1.0 / DECCELERATION_TIME
-
 @export var jump_state: State
 @export var fall_state: State
 @export var idle_state: State
@@ -27,9 +24,9 @@ func process(_delta: float) -> void:
 func physics_process(delta: float) -> void:
 	var dir = master.get_dir()
 	
-	var acceleration = horizontal_acceleration if dir else horizontal_decceleration
+	var acceleration = master.TOP_SPEED * Global.TILE_SIZE / (ACCELERATION_TIME if dir else DECCELERATION_TIME)
 	
-	master.velocity.x = lerpf(master.velocity.x, master.TOP_SPEED * Global.TILE_SIZE * dir, delta * acceleration)
+	master.velocity.x = move_toward(master.velocity.x, master.TOP_SPEED * Global.TILE_SIZE * dir, delta * acceleration)
 	
 	master.move_and_slide()
 	
@@ -40,6 +37,7 @@ func physics_process(delta: float) -> void:
 		transition(idle_state)
 
 func on_enter() -> void:
+	var debug = master.velocity.x
 	if buffer_timer.time_left:
 		transition(jump_state)
 		master.jump()

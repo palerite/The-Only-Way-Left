@@ -39,9 +39,9 @@ func physics_process(delta: float) -> void:
 	elif timer <= DASH_TIME * (1.0 - CONTROL_DELAY_RATIO):
 		var dir = master.get_dir()
 		var target_velocity = dash_speed if dir >= 0 else 0.0
-		master.velocity.x = lerpf(master.velocity.x, target_velocity, delta * CONTROL_STRENGTH)
+		master.velocity.x = move_toward(master.velocity.x, target_velocity, delta * CONTROL_STRENGTH)
 	if timer <= DECCELERATION_THRESHOLD:
-		master.velocity.x = lerpf(master.velocity.x, master.TOP_SPEED, delta * DECCELERATION_STRENGTH)
+		master.velocity.x = move_toward(master.velocity.x, dash_speed / 2, delta * DECCELERATION_STRENGTH)
 	
 	master.move_and_slide()
 
@@ -53,7 +53,7 @@ func on_enter() -> void:
 
 func on_exit() -> void:
 	if Input.is_action_pressed("move_right"):
-		master.velocity.x = master.TOP_SPEED
+		master.velocity.x = master.TOP_SPEED * Global.TILE_SIZE
 	else:
 		master.velocity.x = min(0, master.velocity.x)
 		

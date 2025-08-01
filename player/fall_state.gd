@@ -25,8 +25,8 @@ func process(_delta: float) -> void:
 func physics_process(delta: float) -> void:
 	var dir = master.get_dir()
 	
-	var acceleration = master.air_acceleration if dir else master.air_decceleration
-	master.velocity.x = lerpf(master.velocity.x, master.TOP_SPEED * Global.TILE_SIZE * dir, delta * acceleration)
+	var acceleration = master.TOP_SPEED * Global.TILE_SIZE / (master.AIR_ACCELERATION_TIME if dir else master.AIR_DECCELERATION_TIME)
+	master.velocity.x = move_toward(master.velocity.x, master.TOP_SPEED * Global.TILE_SIZE * dir, delta * acceleration)
 	
 	master.apply_gravity(DOWNWARDS_GRAVITY_MULTIPLIER, delta)
 	

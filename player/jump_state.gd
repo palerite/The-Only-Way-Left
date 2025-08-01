@@ -30,8 +30,8 @@ func physics_process(delta: float) -> void:
 	elif raycast_right.is_colliding() and !raycast_right_verification.is_colliding():
 		master.position.x -= BUMP_PUSH_SPEED
 	
-	var acceleration = master.air_acceleration if dir else master.air_decceleration
-	master.velocity.x = lerpf(master.velocity.x, master.TOP_SPEED * Global.TILE_SIZE * dir, delta * acceleration)
+	var acceleration = master.TOP_SPEED * Global.TILE_SIZE / (master.AIR_ACCELERATION_TIME if dir else master.AIR_DECCELERATION_TIME)
+	master.velocity.x = move_toward(master.velocity.x, master.TOP_SPEED * Global.TILE_SIZE * dir, delta * acceleration)
 	
 	master.apply_gravity(1.0, delta)
 	

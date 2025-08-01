@@ -22,8 +22,8 @@ script = ExtResource("1_4ntmi")
 JUMP_HEIGHT = 4.6
 TOP_SPEED = 9.0
 TERMINAL_VELOCITY = 24.0
-AIR_ACCELERATION_TIME = 0.2
-AIR_DECCELERATION_TIME = 0.15
+AIR_ACCELERATION_TIME = 0.3
+AIR_DECCELERATION_TIME = 0.2
 state_machine = NodePath("StateMachine")
 stunned_state = NodePath("StateMachine/StunnedState")
 
@@ -68,8 +68,8 @@ stunned_state = NodePath("../StunnedState")
 
 [node name="MoveState" type="Node" parent="StateMachine" node_paths=PackedStringArray("buffer_timer", "coyote_timer", "jump_state", "fall_state", "idle_state", "dash_state", "stunned_state")]
 script = ExtResource("5_k53q1")
-ACCELERATION_TIME = 1.0
-DECCELERATION_TIME = 1.0
+ACCELERATION_TIME = 0.1
+DECCELERATION_TIME = 0.06
 buffer_timer = NodePath("../../JumpBufferTimer")
 coyote_timer = NodePath("../../CoyoteTimer")
 jump_state = NodePath("../JumpState")
@@ -106,7 +106,7 @@ script = ExtResource("8_od3ui")
 CONTROL_DELAY_RATIO = 0.8
 CONTROL_STRENGTH = 20.0
 DASH_TIME = 0.15
-DECCELERATION_STRENGTH = 0.0
+DECCELERATION_STRENGTH = 300.0
 raycast_up = NodePath("../../BumpRaycasts/Directional/SideBumpRaycastUp")
 raycast_up_verification = NodePath("../../BumpRaycasts/Directional/SideBumpRaycastUpVerification")
 raycast_down = NodePath("../../BumpRaycasts/Directional/SideBumpRaycastDown")
