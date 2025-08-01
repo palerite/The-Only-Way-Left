@@ -1,0 +1,159 @@
+[gd_scene load_steps=12 format=3 uid="uid://ct8517n1ncw74"]
+
+[ext_resource type="Texture2D" uid="uid://dkpjdv550ocr5" path="res://player.png" id="1_4flbx"]
+[ext_resource type="Script" uid="uid://dcmmfjrptj6k0" path="res://player/character_controller.gd" id="1_4ntmi"]
+[ext_resource type="Script" uid="uid://doc7sokx0y8e0" path="res://player/state_machine.gd" id="3_gwnis"]
+[ext_resource type="Script" uid="uid://5wj7hypr2uur" path="res://player/idle_state.gd" id="4_gwnis"]
+[ext_resource type="Script" uid="uid://cw2pnwsp3kv82" path="res://player/move_state.gd" id="5_k53q1"]
+[ext_resource type="Script" uid="uid://ddawbydfxv7j7" path="res://player/jump_state.gd" id="6_fhl08"]
+[ext_resource type="Script" uid="uid://byn0np3nd2eiw" path="res://player/fall_state.gd" id="7_vtle1"]
+[ext_resource type="Script" uid="uid://cwfp1qc5sqim8" path="res://player/dash_state.gd" id="8_od3ui"]
+[ext_resource type="Script" uid="uid://b4anoqw8ynow6" path="res://player/stunned_state.gd" id="9_00tjw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_onrkg"]
+size = Vector2(8, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_00tjw"]
+size = Vector2(6, 12)
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("state_machine", "stunned_state") groups=["Player"]]
+collision_layer = 2
+script = ExtResource("1_4ntmi")
+JUMP_HEIGHT = 4.6
+TOP_SPEED = 9.0
+TERMINAL_VELOCITY = 24.0
+AIR_ACCELERATION_TIME = 0.2
+AIR_DECCELERATION_TIME = 0.15
+state_machine = NodePath("StateMachine")
+stunned_state = NodePath("StateMachine/StunnedState")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 0.5)
+scale = Vector2(1, 0.9375)
+texture = ExtResource("1_4flbx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_onrkg")
+
+[node name="Hitbox" type="Area2D" parent="." groups=["Player"]]
+collision_layer = 2
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_00tjw")
+debug_color = Color(0, 0.650687, 0.0751695, 0.42)
+
+[node name="CoyoteTimer" type="Timer" parent="."]
+wait_time = 0.06
+one_shot = true
+
+[node name="JumpBufferTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("master", "state", "hitbox")]
+script = ExtResource("3_gwnis")
+master = NodePath("..")
+state = NodePath("IdleState")
+hitbox = NodePath("../Hitbox")
+
+[node name="IdleState" type="Node" parent="StateMachine" node_paths=PackedStringArray("jump_state", "fall_state", "move_state", "dash_state", "stunned_state")]
+script = ExtResource("4_gwnis")
+jump_state = NodePath("../JumpState")
+fall_state = NodePath("../FallState")
+move_state = NodePath("../MoveState")
+dash_state = NodePath("../DashState")
+stunned_state = NodePath("../StunnedState")
+
+[node name="MoveState" type="Node" parent="StateMachine" node_paths=PackedStringArray("buffer_timer", "coyote_timer", "jump_state", "fall_state", "idle_state", "dash_state", "stunned_state")]
+script = ExtResource("5_k53q1")
+ACCELERATION_TIME = 1.0
+DECCELERATION_TIME = 1.0
+buffer_timer = NodePath("../../JumpBufferTimer")
+coyote_timer = NodePath("../../CoyoteTimer")
+jump_state = NodePath("../JumpState")
+fall_state = NodePath("../FallState")
+idle_state = NodePath("../IdleState")
+dash_state = NodePath("../DashState")
+stunned_state = NodePath("../StunnedState")
+
+[node name="JumpState" type="Node" parent="StateMachine" node_paths=PackedStringArray("fall_state", "idle_state", "move_state", "dash_state", "buffer_timer", "coyote_timer", "raycast_left", "raycast_left_verification", "raycast_right", "raycast_right_verification", "stunned_state")]
+script = ExtResource("6_fhl08")
+fall_state = NodePath("../FallState")
+idle_state = NodePath("../IdleState")
+move_state = NodePath("../MoveState")
+dash_state = NodePath("../DashState")
+buffer_timer = NodePath("../../JumpBufferTimer")
+coyote_timer = NodePath("../../CoyoteTimer")
+raycast_left = NodePath("../../BumpRaycasts/UpBumpRaycastLeft")
+raycast_left_verification = NodePath("../../BumpRaycasts/UpBumpRaycastLeftVerification")
+raycast_right = NodePath("../../BumpRaycasts/UpBumpRaycastRight")
+raycast_right_verification = NodePath("../../BumpRaycasts/UpBumpRaycastRightVerification")
+stunned_state = NodePath("../StunnedState")
+
+[node name="FallState" type="Node" parent="StateMachine" node_paths=PackedStringArray("jump_state", "move_state", "dash_state", "buffer_timer", "coyote_timer", "stunned_state")]
+script = ExtResource("7_vtle1")
+jump_state = NodePath("../JumpState")
+move_state = NodePath("../MoveState")
+dash_state = NodePath("../DashState")
+buffer_timer = NodePath("../../JumpBufferTimer")
+coyote_timer = NodePath("../../CoyoteTimer")
+stunned_state = NodePath("../StunnedState")
+
+[node name="DashState" type="Node" parent="StateMachine" node_paths=PackedStringArray("raycast_up", "raycast_up_verification", "raycast_down", "raycast_down_verification", "fall_state", "move_state", "stunned_state")]
+script = ExtResource("8_od3ui")
+CONTROL_DELAY_RATIO = 0.8
+CONTROL_STRENGTH = 20.0
+DASH_TIME = 0.15
+DECCELERATION_STRENGTH = 0.0
+raycast_up = NodePath("../../BumpRaycasts/Directional/SideBumpRaycastUp")
+raycast_up_verification = NodePath("../../BumpRaycasts/Directional/SideBumpRaycastUpVerification")
+raycast_down = NodePath("../../BumpRaycasts/Directional/SideBumpRaycastDown")
+raycast_down_verification = NodePath("../../BumpRaycasts/Directional/SideBumpRaycastDownVerification")
+BUMP_PUSH_SPEED = 2.5
+fall_state = NodePath("../FallState")
+move_state = NodePath("../MoveState")
+stunned_state = NodePath("../StunnedState")
+
+[node name="StunnedState" type="Node" parent="StateMachine" node_paths=PackedStringArray("idle_state", "stunned_state")]
+script = ExtResource("9_00tjw")
+idle_state = NodePath("../IdleState")
+stunned_state = NodePath(".")
+metadata/_custom_type_script = "uid://csfxo2hg3nmkx"
+
+[node name="BumpRaycasts" type="Node2D" parent="."]
+
+[node name="UpBumpRaycastLeft" type="RayCast2D" parent="BumpRaycasts"]
+position = Vector2(-4, -6)
+target_position = Vector2(0, -5)
+
+[node name="UpBumpRaycastLeftVerification" type="RayCast2D" parent="BumpRaycasts"]
+position = Vector2(-1, -6)
+target_position = Vector2(0, -5)
+
+[node name="UpBumpRaycastRight" type="RayCast2D" parent="BumpRaycasts"]
+position = Vector2(4, -6)
+target_position = Vector2(0, -5)
+
+[node name="UpBumpRaycastRightVerification" type="RayCast2D" parent="BumpRaycasts"]
+position = Vector2(1, -6)
+target_position = Vector2(0, -5)
+
+[node name="Directional" type="Node2D" parent="BumpRaycasts"]
+
+[node name="SideBumpRaycastUpVerification" type="RayCast2D" parent="BumpRaycasts/Directional"]
+position = Vector2(3, -3)
+target_position = Vector2(5, 0)
+
+[node name="SideBumpRaycastUp" type="RayCast2D" parent="BumpRaycasts/Directional"]
+position = Vector2(3, -7)
+target_position = Vector2(5, 0)
+
+[node name="SideBumpRaycastDown" type="RayCast2D" parent="BumpRaycasts/Directional"]
+position = Vector2(3, 8)
+target_position = Vector2(5, 0)
+
+[node name="SideBumpRaycastDownVerification" type="RayCast2D" parent="BumpRaycasts/Directional"]
+position = Vector2(3, 4)
+target_position = Vector2(5, 0)

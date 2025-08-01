@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dgidkswg06pq8"]
+
+[ext_resource type="Script" uid="uid://ulyb1tsxex8l" path="res://objects/spring.gd" id="1_vfg45"]
+[ext_resource type="Texture2D" uid="uid://cgoh6rlfrt123" path="res://objects/spring.png" id="2_14s6j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qam41"]
+size = Vector2(12, 3)
+
+[node name="Spring" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_vfg45")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -1)
+texture = ExtResource("2_14s6j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_qam41")
+debug_color = Color(0, 0.650687, 0.0751695, 0.42)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

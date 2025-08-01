@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3 uid="uid://df60tn3yr0nvl"]
+
+[ext_resource type="Script" uid="uid://57t7plhsoy5v" path="res://game.gd" id="1_e2o6t"]
+[ext_resource type="PackedScene" uid="uid://dalhl05blueb" path="res://area.tscn" id="2_feb5d"]
+[ext_resource type="PackedScene" uid="uid://ct8517n1ncw74" path="res://player/player.tscn" id="3_feb5d"]
+
+[node name="Game" type="Node" groups=["Game"]]
+script = ExtResource("1_e2o6t")
+
+[node name="Area" parent="." instance=ExtResource("2_feb5d")]
+
+[node name="Player" parent="." instance=ExtResource("3_feb5d")]
+position = Vector2(107, 153)

@@ -1,0 +1,44 @@
+extends State
+
+@export var DOWNWARDS_GRAVITY_MULTIPLIER: float = 1.6
+
+@export var jump_state: State
+@export var move_state: State
+@export var dash_state: State
+
+@export var buffer_timer: Timer
+@export var coyote_timer: Timer
+
+func unhandled_input(event: InputEvent) -> void:
+	if master.dash_available and event.is_action_pressed("dash"):
+		transition(dash_state)
+	if event.is_action_pressed("jump"):
+		if coyote_timer.time_left:
+			transition(jump_state)
+			master.jump()
+		else:
+			buffer_timer.start()
+
+func process(_delta: float) -> void:
+	pass
+
+func physics_process(delta: float) -> void:
+	var dir = master.get_dir()
+	
+	var acceleration = master.air_acceleration if dir else master.air_decceleration
+	master.velocity.x = lerpf(master.velocity.x, master.TOP_SPEED * Global.TILE_SIZE * dir, delta * acceleration)
+	
+	master.apply_gravity(DOWNWARDS_GRAVITY_MULTIPLIER, delta)
+	
+	master.move_and_slide()
+	if master.is_on_floor():
+		transition(move_state)
+	elif master.velocity.y < 0:
+		transition(jump_state)
+
+func on_enter() -> void:
+	if master.velocity.y < 0:
+		transition(jump_state)
+
+func on_exit() -> void:
+	pass
