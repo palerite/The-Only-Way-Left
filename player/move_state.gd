@@ -6,12 +6,15 @@ extends State
 @export var buffer_timer: Timer
 @export var coyote_timer: Timer
 
+@export var dust_particles: GPUParticles2D
+
 @export var jump_state: State
 @export var fall_state: State
 @export var idle_state: State
 @export var dash_state: State
 
 func unhandled_input(event: InputEvent) -> void:
+	super(event)
 	if master.dash_available and event.is_action_pressed("dash"):
 		transition(dash_state)
 	if event.is_action_pressed("jump"):
@@ -37,6 +40,7 @@ func physics_process(delta: float) -> void:
 		transition(idle_state)
 
 func on_enter() -> void:
+	dust_particles.emitting = true
 	if buffer_timer.time_left:
 		transition(jump_state)
 		master.jump()
@@ -44,4 +48,4 @@ func on_enter() -> void:
 		master.regain_dash()
 
 func on_exit() -> void:
-	pass
+	dust_particles.emitting = false

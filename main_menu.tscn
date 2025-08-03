@@ -1,0 +1,107 @@
+[gd_scene load_steps=10 format=3 uid="uid://bj4gjtdgqjqx1"]
+
+[ext_resource type="Texture2D" uid="uid://dj6kit88ply8s" path="res://vfx/background_particle_white.png" id="1_7vrkn"]
+[ext_resource type="Texture2D" uid="uid://c042o5rhu0o6u" path="res://text/start_button.png" id="2_fu7sn"]
+[ext_resource type="Texture2D" uid="uid://bfrssk5ov04q4" path="res://text/the_only_way_is_left.png" id="3_jix8l"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jix8l"]
+atlas = ExtResource("1_7vrkn")
+region = Rect2(0, 2, 32, 2)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_glbon"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(-160, 0, 0)
+emission_shape = 3
+emission_box_extents = Vector3(1, 140, 1)
+spread = 0.0
+initial_velocity_min = 327.58
+initial_velocity_max = 454.02
+gravity = Vector3(0, 0, 0)
+color = Color(0.5808, 0.5016, 0.66, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_06t4h"]
+atlas = ExtResource("1_7vrkn")
+region = Rect2(0, 0, 80, 2)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_7vrkn"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(160, 0, 0)
+emission_shape = 3
+emission_box_extents = Vector3(1, 140, 1)
+direction = Vector3(-1, 0, 0)
+spread = 0.0
+initial_velocity_min = 683.9
+initial_velocity_max = 810.34
+gravity = Vector3(0, 0, 0)
+color = Color(0.79, 0.73944, 0.6636, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_glbon"]
+atlas = ExtResource("2_fu7sn")
+region = Rect2(0, 0, 64, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nlkkf"]
+atlas = ExtResource("2_fu7sn")
+region = Rect2(0, 40, 64, 40)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = 2
+layout_mode = 0
+offset_right = 192.0
+offset_bottom = 216.0
+color = Color(0.74902, 0.580392, 0.415686, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+z_index = 1
+layout_mode = 0
+offset_left = 192.0
+offset_right = 384.0
+offset_bottom = 216.0
+color = Color(0.309804, 0.219608, 0.4, 1)
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="ParticlesRight" type="GPUParticles2D" parent="."]
+z_index = 2
+position = Vector2(57, 115)
+amount = 25
+texture = SubResource("AtlasTexture_jix8l")
+lifetime = 1.4
+preprocess = 1.0
+speed_scale = 0.6
+process_material = SubResource("ParticleProcessMaterial_glbon")
+
+[node name="ParticlesLeft" type="GPUParticles2D" parent="."]
+z_index = 1
+position = Vector2(364, 116)
+amount = 20
+texture = SubResource("AtlasTexture_06t4h")
+lifetime = 0.8
+preprocess = 1.0
+process_material = SubResource("ParticleProcessMaterial_7vrkn")
+
+[node name="Button" type="TextureButton" parent="."]
+top_level = true
+z_index = 3
+layout_mode = 0
+offset_left = 108.0
+offset_top = 112.0
+offset_right = 176.0
+offset_bottom = 143.0
+texture_normal = SubResource("AtlasTexture_glbon")
+texture_hover = SubResource("AtlasTexture_nlkkf")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = 3
+layout_mode = 0
+offset_left = 116.0
+offset_right = 276.0
+offset_bottom = 96.0
+texture = ExtResource("3_jix8l")

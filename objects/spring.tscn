@@ -10,6 +10,7 @@ size = Vector2(12, 3)
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_vfg45")
+LAUNCH_VECTOR = Vector2(0, 7)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_14s6j")
@@ -19,4 +20,4 @@ position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_qam41")
 debug_color = Color(0, 0.650687, 0.0751695, 0.42)
 
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

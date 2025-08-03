@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dmqj7e514tcxq" path="res://objects/flag_right.png" id="2_r1rfj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_brk7f"]
-size = Vector2(14, 28)
+size = Vector2(8, 18)
 
 [node name="Flag" type="Area2D" groups=["Flag"]]
 z_index = -1
@@ -17,6 +17,7 @@ position = Vector2(4, -2)
 texture = ExtResource("2_r1rfj")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
 shape = SubResource("RectangleShape2D_brk7f")
 debug_color = Color(0.557974, 0.397001, 1, 0.42)
 

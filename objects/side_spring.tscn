@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmx3vxx3lf4pn"]
+
+[ext_resource type="Script" uid="uid://ulyb1tsxex8l" path="res://objects/spring.gd" id="1_2xkx3"]
+[ext_resource type="Texture2D" uid="uid://cgoh6rlfrt123" path="res://objects/spring.png" id="2_7khhp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qam41"]
+size = Vector2(9, 3.5)
+
+[node name="SideSpring" type="Area2D"]
+rotation = 1.57079
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_2xkx3")
+LAUNCH_VECTOR = Vector2(3.2, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_7khhp")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2.14577e-06, 0.75)
+shape = SubResource("RectangleShape2D_qam41")
+debug_color = Color(0, 0.650687, 0.0751695, 0.42)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

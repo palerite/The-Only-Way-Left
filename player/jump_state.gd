@@ -13,9 +13,14 @@ extends State
 @export var raycast_right: RayCast2D
 @export var raycast_right_verification: RayCast2D
 
+@export var animation_player: AnimationPlayer
+
 @export var BUMP_PUSH_SPEED: float = 3.0
 
+@export var jump_sound: AudioStreamPlayer
+
 func unhandled_input(event: InputEvent) -> void:
+	super(event)
 	if master.dash_available and event.is_action_pressed("dash"):
 		transition(dash_state)
 	if event.is_action_released("jump") and master.jumped_manually:
@@ -27,23 +32,28 @@ func process(_delta: float) -> void:
 func physics_process(delta: float) -> void:
 	var dir = master.get_dir()
 	
-	if raycast_left.is_colliding() and !raycast_left_verification.is_colliding():
-		master.position.x += BUMP_PUSH_SPEED
-	elif raycast_right.is_colliding() and !raycast_right_verification.is_colliding():
-		master.position.x -= BUMP_PUSH_SPEED
+	if master.velocity.y <= -80:
+		if raycast_left.is_colliding() and !raycast_left_verification.is_colliding():
+			master.position.x += BUMP_PUSH_SPEED
+		elif raycast_right.is_colliding() and !raycast_right_verification.is_colliding():
+			master.position.x -= BUMP_PUSH_SPEED
 	
-	var acceleration = master.TOP_SPEED * Global.TILE_SIZE / (master.AIR_ACCELERATION_TIME if dir else master.AIR_DECCELERATION_TIME)
+	var acceleration = master.TOP_SPEED * Global.TILE_SIZE / (master.AIR_ACCELERATION_TIME if master.is_accelerating() else master.AIR_DECCELERATION_TIME)
 	master.velocity.x = move_toward(master.velocity.x, master.TOP_SPEED * Global.TILE_SIZE * dir, delta * acceleration)
 	
 	master.apply_gravity(1.0, delta)
 	
 	master.move_and_slide()
-	if master.is_on_floor():
+	if master.is_on_ceiling():
+		master.hover(0.05 + 0.1 * int(abs(master.velocity.y) / 20))
+		master.velocity.y = 0
+	elif master.is_on_floor():
 		transition(move_state)
-	elif master.velocity.y >= 0:
+	elif master.velocity.y > 0:
 		transition(fall_state)
 
 func on_enter() -> void:
+	animation_player.play("jump")
 	buffer_timer.stop()
 	coyote_timer.stop()
 

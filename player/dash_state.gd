@@ -17,11 +17,16 @@ var decceleration_strength := (DASH_DISTANCE * Global.TILE_SIZE / DASH_TIME / 2)
 var dash_speed = (DASH_DISTANCE * Global.TILE_SIZE + (decceleration_strength * DECCELERATION_THRESHOLD**2 / 2)) / DASH_TIME
 var timer := 0.0
 
+@export var jump_state: State
 @export var fall_state: State
 @export var move_state: State
 
-func unhandled_input(_event: InputEvent) -> void:
-	pass
+@export var dash_sound: AudioStreamPlayer
+
+@onready var line = %DashLine
+
+func unhandled_input(event: InputEvent) -> void:
+	super(event)
 
 func process(_delta: float) -> void:
 	pass
@@ -43,9 +48,15 @@ func physics_process(delta: float) -> void:
 	if timer <= DECCELERATION_THRESHOLD:
 		master.velocity.x = move_toward(master.velocity.x, dash_speed / 2, delta * decceleration_strength)
 	
+	line.add_point(master.global_position)
+	
+	if master.velocity.y < 0:
+		transition(jump_state)
 	master.move_and_slide()
 
 func on_enter() -> void:
+	line.clear_points()
+	dash_sound.play()
 	master.zero_velocity()
 	master.velocity.x = dash_speed
 	timer = DASH_TIME
@@ -53,7 +64,6 @@ func on_enter() -> void:
 
 func on_exit() -> void:
 	if Input.is_action_pressed("move_right"):
-		pass
 		master.velocity.x = max(master.TOP_SPEED, dash_speed/2)
 	else:
 		master.velocity.x = min(master.TOP_SPEED, master.velocity.x)

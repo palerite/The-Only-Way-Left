@@ -8,8 +8,10 @@ var initial_level: PackedScene
 var loaded_levels: Array[Level] = []
 
 func _ready() -> void:
-	initial_level = preload("res://levels/level1.tscn")
+	initial_level = preload("res://levels/level3.tscn")
 	load_level(initial_level)
+	player.set_checkpoint(loaded_levels[0].checkpoint.marker.global_position)
+	
 	if loaded_levels[0].next_level:
 		load_level(loaded_levels[0].next_level)
 	var camera_offset = Vector2(
@@ -17,6 +19,7 @@ func _ready() -> void:
 		ProjectSettings.get_setting("display/window/size/viewport_height")
 	) / 2
 	camera.offset = camera_offset
+	player.respawn()
 
 func load_level(level_scene: PackedScene):
 	if !level_scene:

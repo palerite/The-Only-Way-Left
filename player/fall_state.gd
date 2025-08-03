@@ -8,8 +8,14 @@ extends State
 
 @export var buffer_timer: Timer
 @export var coyote_timer: Timer
+@export var landing_particles: GPUParticles2D
+
+@export var animation_player: AnimationPlayer
+
+@export var fall_sound: AudioStreamPlayer
 
 func unhandled_input(event: InputEvent) -> void:
+	super(event)
 	if master.dash_available and event.is_action_pressed("dash"):
 		transition(dash_state)
 	if event.is_action_pressed("jump"):
@@ -25,7 +31,7 @@ func process(_delta: float) -> void:
 func physics_process(delta: float) -> void:
 	var dir = master.get_dir()
 	
-	var acceleration = master.TOP_SPEED * Global.TILE_SIZE / (master.AIR_ACCELERATION_TIME if dir else master.AIR_DECCELERATION_TIME)
+	var acceleration = master.TOP_SPEED * Global.TILE_SIZE / (master.AIR_ACCELERATION_TIME if master.is_accelerating() else master.AIR_DECCELERATION_TIME)
 	master.velocity.x = move_toward(master.velocity.x, master.TOP_SPEED * Global.TILE_SIZE * dir, delta * acceleration)
 	
 	master.apply_gravity(DOWNWARDS_GRAVITY_MULTIPLIER, delta)
@@ -41,4 +47,7 @@ func on_enter() -> void:
 		transition(jump_state)
 
 func on_exit() -> void:
-	pass
+	if master.is_on_floor():
+		fall_sound.play()
+		animation_player.play("fall")
+		landing_particles.restart()
