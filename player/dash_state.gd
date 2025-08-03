@@ -13,8 +13,8 @@ extends State
 
 @export var BUMP_PUSH_SPEED: float = 100.0
 
-var decceleration_strength := (DASH_DISTANCE * Global.TILE_SIZE / DASH_TIME / 2) / DECCELERATION_THRESHOLD 
-var dash_speed = (DASH_DISTANCE * Global.TILE_SIZE + (decceleration_strength * DECCELERATION_THRESHOLD**2 / 2)) / DASH_TIME
+var decceleration_strength 
+var dash_speed
 var timer := 0.0
 
 @export var jump_state: State
@@ -24,6 +24,10 @@ var timer := 0.0
 @export var dash_sound: AudioStreamPlayer
 
 @onready var line = %DashLine
+
+func _ready() -> void:
+	decceleration_strength = (DASH_DISTANCE * Global.TILE_SIZE / DASH_TIME / 2) / DECCELERATION_THRESHOLD
+	dash_speed = (DASH_DISTANCE * Global.TILE_SIZE + (decceleration_strength * DECCELERATION_THRESHOLD**2 / 2)) / DASH_TIME
 
 func unhandled_input(event: InputEvent) -> void:
 	super(event)
@@ -55,7 +59,9 @@ func physics_process(delta: float) -> void:
 	master.move_and_slide()
 
 func on_enter() -> void:
+	%AnimationPlayer.play("dash")
 	line.clear_points()
+	master.randomize_pitch(dash_sound)
 	dash_sound.play()
 	master.zero_velocity()
 	master.velocity.x = dash_speed
@@ -63,6 +69,7 @@ func on_enter() -> void:
 	master.lose_dash()
 
 func on_exit() -> void:
+	timer = 0
 	if Input.is_action_pressed("move_right"):
 		master.velocity.x = max(master.TOP_SPEED, dash_speed/2)
 	else:

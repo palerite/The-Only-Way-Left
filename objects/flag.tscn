@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://6gdd8jv1ppaq"]
+[gd_scene load_steps=5 format=3 uid="uid://6gdd8jv1ppaq"]
 
 [ext_resource type="Script" uid="uid://beogdvfh67t22" path="res://objects/flag.gd" id="1_2iksx"]
 [ext_resource type="Texture2D" uid="uid://dmqj7e514tcxq" path="res://objects/flag_right.png" id="2_r1rfj"]
+[ext_resource type="AudioStream" uid="uid://dd04hty3yic5b" path="res://objects/flag_reached.wav" id="3_r1rfj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_brk7f"]
 size = Vector2(8, 18)
@@ -24,5 +25,9 @@ debug_color = Color(0.557974, 0.397001, 1, 0.42)
 [node name="CheckpointMarker" type="Marker2D" parent="."]
 position = Vector2(0, 6)
 gizmo_extents = 8.0
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_r1rfj")
+volume_db = -4.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

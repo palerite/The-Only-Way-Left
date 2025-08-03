@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://vdap8iv5spsl"
+path="res://.godot/imported/2forpaleritereversed.wav-117c4a5c954e9fa4226cd3b69345d52b.sample"
+
+[deps]
+
+source_file="res://music/2 (tiny)/2forpaleritereversed.wav"
+dest_files=["res://.godot/imported/2forpaleritereversed.wav-117c4a5c954e9fa4226cd3b69345d52b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

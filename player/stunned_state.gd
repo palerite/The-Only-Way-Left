@@ -27,6 +27,7 @@ func physics_process(_delta: float) -> void:
 	pass
 
 func on_enter() -> void:
+	%AnimationPlayer.play("stun")
 	transition_initiated = false
 	respawn_initiated = false
 	timer = RESPAWN_DELAY

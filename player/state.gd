@@ -20,7 +20,7 @@ func on_exit() -> void:
 
 func unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("restart"):
-		master.respawn()
+		transition(stunned_state)
 
 func hazard_entered():
 	transition(stunned_state)

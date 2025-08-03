@@ -17,3 +17,4 @@ func _on_area_entered(area: Area2D) -> void:
 		var player = area.get_parent()
 		if player.is_in_group("Player"):
 			player.switch_phase()
+		$AudioStreamPlayer.play()

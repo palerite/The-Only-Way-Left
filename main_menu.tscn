@@ -1,8 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://bj4gjtdgqjqx1"]
+[gd_scene load_steps=13 format=3 uid="uid://bj4gjtdgqjqx1"]
 
 [ext_resource type="Texture2D" uid="uid://dj6kit88ply8s" path="res://vfx/background_particle_white.png" id="1_7vrkn"]
+[ext_resource type="Script" uid="uid://blgaibhw6t86g" path="res://main_menu.gd" id="1_jix8l"]
 [ext_resource type="Texture2D" uid="uid://c042o5rhu0o6u" path="res://text/start_button.png" id="2_fu7sn"]
 [ext_resource type="Texture2D" uid="uid://bfrssk5ov04q4" path="res://text/the_only_way_is_left.png" id="3_jix8l"]
+[ext_resource type="Texture2D" uid="uid://dcw63tlek6md8" path="res://text/credits.png" id="5_glbon"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jix8l"]
 atlas = ExtResource("1_7vrkn")
@@ -33,7 +35,7 @@ spread = 0.0
 initial_velocity_min = 683.9
 initial_velocity_max = 810.34
 gravity = Vector3(0, 0, 0)
-color = Color(0.79, 0.73944, 0.6636, 1)
+color = Color(0, 0, 0, 0.356863)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_glbon"]
 atlas = ExtResource("2_fu7sn")
@@ -43,6 +45,21 @@ region = Rect2(0, 0, 64, 40)
 atlas = ExtResource("2_fu7sn")
 region = Rect2(0, 40, 64, 40)
 
+[sub_resource type="Environment" id="Environment_fu7sn"]
+background_mode = 3
+glow_enabled = true
+glow_levels/1 = 0.1
+glow_levels/3 = 0.0
+glow_levels/4 = 0.81
+glow_levels/6 = 0.45
+glow_levels/7 = 0.4
+glow_intensity = 1.77
+glow_strength = 0.48
+glow_bloom = 0.3
+glow_blend_mode = 0
+adjustment_enabled = true
+adjustment_contrast = 1.08
+
 [node name="MainMenu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
@@ -50,8 +67,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_jix8l")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 z_index = 2
 layout_mode = 0
 offset_right = 192.0
@@ -61,7 +80,7 @@ color = Color(0.74902, 0.580392, 0.415686, 1)
 [node name="ColorRect2" type="ColorRect" parent="."]
 z_index = 1
 layout_mode = 0
-offset_left = 192.0
+offset_left = -4.0
 offset_right = 384.0
 offset_bottom = 216.0
 color = Color(0.309804, 0.219608, 0.4, 1)
@@ -69,6 +88,7 @@ color = Color(0.309804, 0.219608, 0.4, 1)
 [node name="Node2D" type="Node2D" parent="."]
 
 [node name="ParticlesRight" type="GPUParticles2D" parent="."]
+visible = false
 z_index = 2
 position = Vector2(57, 115)
 amount = 25
@@ -91,10 +111,10 @@ process_material = SubResource("ParticleProcessMaterial_7vrkn")
 top_level = true
 z_index = 3
 layout_mode = 0
-offset_left = 108.0
-offset_top = 112.0
-offset_right = 176.0
-offset_bottom = 143.0
+offset_left = 160.0
+offset_top = 116.0
+offset_right = 228.0
+offset_bottom = 156.0
 texture_normal = SubResource("AtlasTexture_glbon")
 texture_hover = SubResource("AtlasTexture_nlkkf")
 
@@ -105,3 +125,13 @@ offset_left = 116.0
 offset_right = 276.0
 offset_bottom = 96.0
 texture = ExtResource("3_jix8l")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fu7sn")
+
+[node name="Credits" type="Sprite2D" parent="."]
+z_index = 3
+position = Vector2(200, 216)
+texture = ExtResource("5_glbon")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

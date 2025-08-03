@@ -34,6 +34,9 @@ func _ready() -> void:
 	set_checkpoint(position)
 	respawn()
 
+func randomize_pitch(obj: AudioStreamPlayer) -> void:
+	obj.pitch_scale = randf_range(0.85, 1.15)
+
 func _physics_process(_delta: float) -> void:
 	if $StateMachine/DashState.timer <= 0 and %DashLine.points:
 		%DashLine.remove_point(0)
@@ -46,9 +49,11 @@ func is_accelerating() -> bool:
 	return sign(get_dir()) == sign(velocity.x)
 
 func jump():
+	$Sprite.offset = Vector2.ZERO
+	$Sprite.position = Vector2.ZERO
 	velocity.y = jump_speed
 	jumped_manually = true
-	
+	randomize_pitch($JumpSound)
 	$JumpSound.play()
 
 func hover(duration: float):
@@ -58,7 +63,10 @@ func hover(duration: float):
 		hovering = false
 
 func respawn():
+	$Sprite.offset = Vector2.ZERO
+	$Sprite.position = Vector2.ZERO
 	$LightAnimationPlayer.play_backwards("switch")
+	$AnimationPlayer.play_backwards("stun")
 	position = checkpoint
 	zero_velocity()
 	regain_dash()

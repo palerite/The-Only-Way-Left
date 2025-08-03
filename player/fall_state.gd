@@ -48,6 +48,7 @@ func on_enter() -> void:
 
 func on_exit() -> void:
 	if master.is_on_floor():
+		master.randomize_pitch(fall_sound)
 		fall_sound.play()
 		animation_player.play("fall")
 		landing_particles.restart()

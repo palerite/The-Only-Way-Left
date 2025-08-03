@@ -1,7 +1,8 @@
-[gd_scene load_steps=27 format=3 uid="uid://ct8517n1ncw74"]
+[gd_scene load_steps=30 format=3 uid="uid://ct8517n1ncw74"]
 
 [ext_resource type="Texture2D" uid="uid://dkpjdv550ocr5" path="res://player.png" id="1_4flbx"]
 [ext_resource type="Script" uid="uid://dcmmfjrptj6k0" path="res://player/character_controller.gd" id="1_4ntmi"]
+[ext_resource type="Animation" uid="uid://dlmrna8wumdxl" path="res://objects/bounce.res" id="2_kb6p2"]
 [ext_resource type="Script" uid="uid://doc7sokx0y8e0" path="res://player/state_machine.gd" id="3_gwnis"]
 [ext_resource type="Script" uid="uid://5wj7hypr2uur" path="res://player/idle_state.gd" id="4_gwnis"]
 [ext_resource type="Script" uid="uid://cw2pnwsp3kv82" path="res://player/move_state.gd" id="5_k53q1"]
@@ -40,34 +41,17 @@ tracks/1/keys = {
 "update": 0,
 "values": [Vector2(0, 0)]
 }
-
-[sub_resource type="Animation" id="Animation_kb6p2"]
-resource_name = "fall"
-length = 0.1
-step = 0.05
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1),
-"transitions": PackedFloat32Array(1, 0.5, 2),
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Sprite:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(1, 1), Vector2(1.2, 0.8), Vector2(1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite:offset")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.1),
-"transitions": PackedFloat32Array(1, 0.5, 2),
-"update": 0,
-"values": [Vector2(0, 0), Vector2(0, 2), Vector2(0, 0)]
+"values": [Vector2(0, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_ebec5"]
@@ -99,11 +83,83 @@ tracks/1/keys = {
 "values": [Vector2(0, 0), Vector2(0, -1.3), Vector2(0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_kb6p2"]
+resource_name = "stun"
+length = 0.4
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 0.5),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 0.1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 0.5),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = false
+tracks/2/path = NodePath("Sprite:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 7)]
+}
+
+[sub_resource type="Animation" id="Animation_wodsf"]
+resource_name = "dash"
+length = 0.15
+step = 0.025
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.075, 0.15),
+"transitions": PackedFloat32Array(1, 0.5, 2),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.3, 0.7), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.075, 0.15),
+"transitions": PackedFloat32Array(1, 0.5, 2),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(0, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_kb6p2"]
 _data = {
 &"RESET": SubResource("Animation_yllr7"),
-&"fall": SubResource("Animation_kb6p2"),
-&"jump": SubResource("Animation_ebec5")
+&"dash": SubResource("Animation_wodsf"),
+&"fall": ExtResource("2_kb6p2"),
+&"jump": SubResource("Animation_ebec5"),
+&"stun": SubResource("Animation_kb6p2")
 }
 
 [sub_resource type="Animation" id="Animation_2ieo8"]
@@ -147,7 +203,7 @@ _data = {
 size = Vector2(8, 14)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_00tjw"]
-size = Vector2(7, 12)
+size = Vector2(8, 12)
 
 [sub_resource type="Gradient" id="Gradient_yllr7"]
 colors = PackedColorArray(0.273, 0.7, 0.33705, 0, 0.273, 0.7, 0.33705, 0.803922)
@@ -174,7 +230,25 @@ linear_accel_max = -5.75
 damping_min = 20.463
 damping_max = 20.463
 scale_max = 1.8
-color = Color(0.75, 0.72375, 0.6975, 1)
+color = Color(0.5041, 0.71, 0.56587, 1)
+alpha_curve = SubResource("CurveTexture_2ieo8")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kb6p2"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, 7, 0)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+direction = Vector3(-1, 0, 0)
+spread = 5.0
+initial_velocity_min = -30.0
+initial_velocity_max = 30.0
+gravity = Vector3(0, 0, 0)
+linear_accel_min = -5.75
+linear_accel_max = -5.75
+damping_min = 20.463
+damping_max = 20.463
+scale_max = 1.8
+color = Color(0.825978, 0.809454, 0.704954, 1)
 alpha_curve = SubResource("CurveTexture_2ieo8")
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("state_machine", "stunned_state") groups=["Player"]]
@@ -184,12 +258,13 @@ JUMP_HEIGHT = 4.0
 JUMP_DISTANCE = 6.5
 TOP_SPEED = 12.0
 TERMINAL_VELOCITY = 24.0
-AIR_ACCELERATION_TIME = 0.2
+AIR_ACCELERATION_TIME = 0.12
 AIR_DECCELERATION_TIME = 0.08
 state_machine = NodePath("StateMachine")
 stunned_state = NodePath("StateMachine/StunnedState")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
 libraries = {
 &"": SubResource("AnimationLibrary_kb6p2")
 }
@@ -199,14 +274,14 @@ libraries = {
 &"": SubResource("AnimationLibrary_ebec5")
 }
 
-[node name="Sprite" type="Sprite2D" parent="."]
-light_mask = 2
-texture = ExtResource("1_4flbx")
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_onrkg")
 
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_4flbx")
+
 [node name="Hitbox" type="Area2D" parent="." groups=["Player"]]
+visible = false
 position = Vector2(0, 1)
 collision_layer = 2
 collision_mask = 4
@@ -281,10 +356,9 @@ stunned_state = NodePath("../StunnedState")
 
 [node name="DashState" type="Node" parent="StateMachine" node_paths=PackedStringArray("raycast_up", "raycast_up_verification", "raycast_down", "raycast_down_verification", "jump_state", "fall_state", "move_state", "dash_sound", "stunned_state")]
 script = ExtResource("8_od3ui")
+DASH_DISTANCE = 5.8
 CONTROL_DELAY_RATIO = 0.8
-CONTROL_STRENGTH = 20.0
 DASH_TIME = 0.15
-DECCELERATION_THRESHOLD = 0.05
 raycast_up = NodePath("../../Directional/SideBumpRaycastUp")
 raycast_up_verification = NodePath("../../Directional/SideBumpRaycastUpVerification")
 raycast_down = NodePath("../../Directional/SideBumpRaycastDown")
@@ -300,7 +374,7 @@ stunned_state = NodePath("../StunnedState")
 unique_name_in_owner = true
 show_behind_parent = true
 z_index = -1
-width = 12.0
+width = 8.0
 default_color = Color(0.273, 0.7, 0.33705, 1)
 gradient = SubResource("Gradient_yllr7")
 
@@ -369,18 +443,20 @@ amount = 24
 lifetime = 0.4
 one_shot = true
 explosiveness = 1.0
-process_material = SubResource("ParticleProcessMaterial_ebec5")
+process_material = SubResource("ParticleProcessMaterial_kb6p2")
 
 [node name="DashSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("11_yllr7")
-volume_db = -2.0
+volume_db = 3.0
 pitch_scale = 1.1
 
 [node name="StepSound" type="AudioStreamPlayer" parent="."]
+volume_db = 3.0
 
 [node name="JumpSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_kb6p2")
-volume_db = 5.0
+volume_db = 3.0
 
 [node name="LandSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("13_wodsf")
+volume_db = 3.0

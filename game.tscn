@@ -1,10 +1,12 @@
-[gd_scene load_steps=18 format=3 uid="uid://df60tn3yr0nvl"]
+[gd_scene load_steps=20 format=3 uid="uid://df60tn3yr0nvl"]
 
 [ext_resource type="Script" uid="uid://57t7plhsoy5v" path="res://game.gd" id="1_e2o6t"]
 [ext_resource type="PackedScene" uid="uid://ct8517n1ncw74" path="res://player/player.tscn" id="3_feb5d"]
 [ext_resource type="Texture2D" uid="uid://d5i7qb37x1h0" path="res://vfx/background_particle.png" id="4_fc0e3"]
 [ext_resource type="Script" uid="uid://1ripjstp24eh" path="res://levels/level_manager.gd" id="4_ryrav"]
 [ext_resource type="Texture2D" uid="uid://is0uddudpegk" path="res://vfx/transition.png" id="5_7jktm"]
+[ext_resource type="AudioStream" uid="uid://cdc1sfy1wvda0" path="res://music/1/1forpalerite.wav" id="6_eow3j"]
+[ext_resource type="AudioStream" uid="uid://w3x6liypgmd5" path="res://music/1/1forpaleritereverse.wav" id="7_j5wjh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7jktm"]
 atlas = ExtResource("4_fc0e3")
@@ -89,7 +91,7 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(0.629675, 0.629675, 0.629675, 1)]
+"values": [Color(1, 1, 1, 1), Color(0.581033, 0.581033, 0.581033, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ryrav"]
@@ -241,3 +243,11 @@ position = Vector2(310, 150)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_feb5d")
+
+[node name="Phase1Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_eow3j")
+bus = &"Music"
+
+[node name="Phase2Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_j5wjh")
+bus = &"Music"

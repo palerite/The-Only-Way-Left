@@ -1,10 +1,73 @@
-[gd_scene load_steps=4 format=3 uid="uid://dmx3vxx3lf4pn"]
+[gd_scene load_steps=8 format=3 uid="uid://dmx3vxx3lf4pn"]
 
 [ext_resource type="Script" uid="uid://ulyb1tsxex8l" path="res://objects/spring.gd" id="1_2xkx3"]
 [ext_resource type="Texture2D" uid="uid://cgoh6rlfrt123" path="res://objects/spring.png" id="2_7khhp"]
+[ext_resource type="AudioStream" uid="uid://bog5xic3a4xuh" path="res://objects/spring.wav" id="3_7khhp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qam41"]
-size = Vector2(9, 3.5)
+size = Vector2(10, 6)
+
+[sub_resource type="Animation" id="Animation_7khhp"]
+resource_name = "bounce"
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1),
+"transitions": PackedFloat32Array(1, 0.5, 2),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 0.8), Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1),
+"transitions": PackedFloat32Array(1, 0.5, 2),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 1), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_cyx0i"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7ofhq"]
+_data = {
+&"RESET": SubResource("Animation_cyx0i"),
+&"bounce": SubResource("Animation_7khhp")
+}
 
 [node name="SideSpring" type="Area2D"]
 rotation = 1.57079
@@ -17,8 +80,16 @@ LAUNCH_VECTOR = Vector2(3.2, 0)
 texture = ExtResource("2_7khhp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-2.14577e-06, 0.75)
+position = Vector2(-4.07301e-08, -2.55556e-13)
 shape = SubResource("RectangleShape2D_qam41")
 debug_color = Color(0, 0.650687, 0.0751695, 0.42)
+
+[node name="SpringSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_7khhp")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_7ofhq")
+}
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://kvtexqmkac85"]
+[gd_scene load_steps=12 format=3 uid="uid://kvtexqmkac85"]
 
 [ext_resource type="Texture2D" uid="uid://dsypdgoun44yi" path="res://objects/collectible.png" id="1_foiqg"]
 [ext_resource type="Script" uid="uid://b1m20iv4iu8fg" path="res://objects/orb.gd" id="2_y87ni"]
+[ext_resource type="AudioStream" uid="uid://cq7b5tegday2y" path="res://objects/orb.wav" id="3_il458"]
+[ext_resource type="Texture2D" uid="uid://wfk63x0dkf4s" path="res://vfx/65x65_light.png" id="4_pxj7a"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_y87ni"]
 radius = 6.0
@@ -115,6 +117,43 @@ _data = {
 &"collected": SubResource("Animation_y87ni")
 }
 
+[sub_resource type="Animation" id="Animation_2ieo8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.5]
+}
+
+[sub_resource type="Animation" id="Animation_8t03j"]
+resource_name = "switch"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, -2),
+"update": 0,
+"values": [0.0, 0.7]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ebec5"]
+_data = {
+&"RESET": SubResource("Animation_2ieo8"),
+&"switch": SubResource("Animation_8t03j")
+}
+
 [node name="Orb" type="Area2D"]
 collision_layer = 0
 collision_mask = 2
@@ -130,6 +169,21 @@ texture = ExtResource("1_foiqg")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_pxj7a")
+}
+
+[node name="OrbSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_il458")
+pitch_scale = 1.15
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+color = Color(0.51, 0.983667, 1, 1)
+energy = 0.5
+texture = ExtResource("4_pxj7a")
+texture_scale = 0.5
+
+[node name="LightAnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ebec5")
 }
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

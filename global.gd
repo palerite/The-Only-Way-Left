@@ -13,6 +13,10 @@ func get_player():
 
 func lock_in_orbs():
 	orbs_collected += orbs_pending
+	pass
+
+func randomize_pitch(obj: AudioStreamPlayer) -> void:
+	obj.pitch_scale = randf_range(0.85, 1.15)
 
 func get_orb_id() -> int:
 	current_orb_id += 1

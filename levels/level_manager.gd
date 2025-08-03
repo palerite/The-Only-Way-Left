@@ -8,7 +8,7 @@ var initial_level: PackedScene
 var loaded_levels: Array[Level] = []
 
 func _ready() -> void:
-	initial_level = preload("res://levels/level3.tscn")
+	initial_level = preload("res://levels/level1.tscn")
 	load_level(initial_level)
 	player.set_checkpoint(loaded_levels[0].checkpoint.marker.global_position)
 	
